@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Solar System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+            perspective-origin: center;
+        }
+
+        .universe {
+            margin: 0 auto;
+            position: relative;
+            transform-style: preserve-3d;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sun {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #fc4a1a, #f7b733);
+            border-radius: 50%;
+            box-shadow: 0 0 60px #f7b733, 0 0 98px #fc4a1a;
+            transform-style: preserve-3d;
+            animation: rotate-sun 50s linear infinite;
+        }
+
+        @keyframes rotate-sun {
+            from { transform: rotateZ(0deg); }
+            to { transform: rotateZ(360deg); }
+        }
+
+        .orbit {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform-style: preserve-3d;
+        }
+
+        .planet {
+            position: absolute;
+            border-radius: 50%;
+            transform-style: preserve-3d;
+        }
+
+        .planet-info {
+            position: absolute;
+            width: 150px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .planet:hover .planet-info {
+            opacity: 1;
+        }
+
+
+        .mercury {
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, #a8a8a8, #5f5f5f);
+            top: 50%;
+            left: -4px;
+            transform-origin: 120px 0;
+            animation: orbit 3s linear infinite;
+        }
+
+        .mercury-orbit {
+            width: 240px;
+            height: 240px;
+            margin-top: -120px;
+            margin-left: -120px;
+        }
+
+
+        .venus {
+            width: 14px;
+            height: 14px;
+            background: radial-gradient(circle, #e6c229, #806516);
+            top: 50%;
+            left: -7px;
+            transform-origin: 170px 0;
+            animation: orbit 7s linear infinite;
+        }
+
+        .venus-orbit {
+            width: 340px;
+            height: 340px;
+            margin-top: -170px;
+            margin-left: -170px;
+        }
+
+  
+        .earth {
+            width: 16px;
+            height: 16px;
+            background: radial-gradient(circle, #1da1f2, #0e5a8a);
+            top: 50%;
+            left: -8px;
+            transform-origin: 220px 15px;
+            transform: rotateZ(23.5deg);
+            animation: orbit 12s linear infinite;
+        }
+
+        .earth-orbit {
+            width: 440px;
+            height: 440px;
+            margin-top: -220px;
+            margin-left: -220px;
+        }
+
+        .moon {
+            width: 4px;
+            height: 4px;
+            background: #ddd;
+            top: -2px;
+            left: -2px;
+            transform-origin: 0 20px;
+            animation: orbit 3s linear infinite;
+        }
+
+
+        .mars {
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, #ff7e00, #9c3000);
+            top: 50%;
+            left: -5px;
+            transform-origin: 280px -10px;
+            animation: orbit 22s linear infinite;
+        }
+
+        .mars-orbit {
+            width: 560px;
+            height: 560px;
+            margin-top: -280px;
+            margin-left: -280px;
+        }
+
+
+        .jupiter {
+            width: 36px;
+            height: 36px;
+            background: radial-gradient(circle, #f5c07c, #b08c36);
+            top: 50%;
+            left: -18px;
+            transform-origin: 350px 0;
+            animation: orbit 75s linear infinite;
+        }
+
+        .jupiter-orbit {
+            width: 700px;
+            height: 700px;
+            margin-top: -350px;
+            margin-left: -350px;
+        }
+
+        .saturn {
+            width: 30px;
+            height: 30px;
+            background: radial-gradient(circle, #e4d7b8, #c2aa7b);
+            top: 50%;
+            left: -15px;
+            transform-origin: 420px -5px;
+            animation: orbit 125s linear infinite;
+        }
+
+        .saturn-orbit {
+            width: 840px;
+            height: 840px;
+            margin-top: -420px;
+            margin-left: -420px;
+        }
+
+        .saturn-ring {
+            position: absolute;
+            width: 60px;
+            height: 5px;
+            background: linear-gradient(90deg, rgba(179,159,103,0.8), rgba(221,209,178,0.8), rgba(179,159,103,0.8));
+            top: calc(50% - 2.5px);
+            left: -30px;
+            border-radius: 5px;
+            transform: rotateX(65deg);
+        }
+
+        .uranus {
+            width: 24px;
+            height: 24px;
+            background: radial-gradient(circle, #9fe2e8, #5f9ea0);
+            top: 50%;
+            left: -12px;
+            transform-origin: 490px 0;
+            animation: orbit 250s linear infinite;
+        }
+
+        .uranus-orbit {
+            width: 980px;
+            height: 980px;
+            margin-top: -490px;
+            margin-left: -490px;
+        }
+
+        .neptune {
+            width: 22px;
+            height: 22px;
+            background: radial-gradient(circle, #4169e1, #1a4ba1);
+            top: 50%;
+            left: -11px;
+            transform-origin: 560px 0;
+            animation: orbit 412s linear infinite;
+        }
+
+        .neptune-orbit {
+            width: 1120px;
+            height: 1120px;
+            margin-top: -560px;
+            margin-left: -560px;
+        }
+
+        @keyframes orbit {
+            from { transform: rotateZ(0deg); }
+            to { transform: rotateZ(360deg); }
+        }
+
+        .title {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 24px;
+            color: #fff;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        .controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+        }
+
+        button {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.4);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: rgba(255,255,255,0.4);
+        }
+
+        @media (max-width: 1200px) {
+            .universe {
+                transform: scale(0.8);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .universe {
+                transform: scale(0.6);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .universe {
+                transform: scale(0.4);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="universe">
+        <h1 class="title">3D Solar System</h1>
+      
+        <div class="sun"></div>
+        <div class="orbit mercury-orbit">
+            <div class="planet mercury">
+                <div class="planet-info">
+                    <strong>Mercury</strong><br>
+                    Diameter: 4,880 km<br>
+                    Distance: 58M km<br>
+                    Orbit: 88 days
+                </div>
+            </div>
+        </div>
+        
+        <div class="orbit venus-orbit">
+            <div class="planet venus">
+                <div class="planet-info">
+                    <strong>Venus</strong><br>
+                    Diameter: 12,104 km<br>
+                    Distance: 108M km<br>
+                    Orbit: 225 days
+                </div>
+            </div>
+        </div>
+        
+        <div class="orbit earth-orbit">
+            <div class="planet earth">
+                <div class="moon"></div>
+                <div class="planet-info">
+                    <strong>Earth</strong><br>
+                    Diameter: 12,742 km<br>
+                    Distance: 150M km<br>
+                    Orbit: 365 days<br>
+                    Moon: 1
+                </div>
+            </div>
+        </div>
+        <div class="orbit mars-orbit">
+            <div class="planet mars">
+                <div class="planet-info">
+                    <strong>Mars</strong><br>
+                    Diameter: 6,779 km<br>
+                    Distance: 228M km<br>
+                    Orbit: 687 days
+                </div>
+            </div>
+        </div>
+        <div class="orbit jupiter-orbit">
+            <div class="planet jupiter">
+                <div class="planet-info">
+                    <strong>Jupiter</strong><br>
+                    Diameter: 139,820 km<br>
+                    Distance: 778M km<br>
+                    Orbit: 12 years
+                </div>
+            </div>
+        </div>
+        <div class="orbit saturn-orbit">
+            <div class="planet saturn">
+                <div class="saturn-ring"></div>
+                <div class="planet-info">
+                    <strong>Saturn</strong><br>
+                    Diameter: 116,460 km<br>
+                    Distance: 1.4B km<br>
+                    Orbit: 29 years<br>
+                    Rings: 7 major
+                </div>
+            </div>
+        </div>
+        
+        <div class="orbit uranus-orbit">
+            <div class="planet uranus">
+                <div class="planet-info">
+                    <strong>Uranus</strong><br>
+                    Diameter: 50,724 km<br>
+                    Distance: 2.9B km<br>
+                    Orbit: 84 years
+                </div>
+            </div>
+        </div>
+        
+        <div class="orbit neptune-orbit">
+            <div class="planet neptune">
+                <div class="planet-info">
+                    <strong>Neptune</strong><br>
+                    Diameter: 49,244 km<br>
+                    Distance: 4.5B km<br>
+                    Orbit: 165 years
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button id="zoomIn">Zoom In</button>
+            <button id="zoomOut">Zoom Out</button>
+            <button id="speedUp">Speed Up</button>
+            <button id="slowDown">Slow Down</button>
+        </div>
+    </div>
+
+    <script>
+        const universe = document.querySelector('.universe');
+        const planets = document.querySelectorAll('.planet');
+        const orbits = document.querySelectorAll('.orbit');
+        const speedButtons = {
+            speedUp: document.getElementById('speedUp'),
+            slowDown: document.getElementById('slowDown')
+        };
+        const zoomButtons = {
+            zoomIn: document.getElementById('zoomIn'),
+            zoomOut: document.getElementById('zoomOut')
+        };
+        
+        let currentScale = 1;
+        let speedMultiplier = 1;
+        
+        speedButtons.speedUp.addEventListener('click', () => {
+            speedMultiplier += 0.5;
+            updateAnimationSpeeds();
+        });
+        
+        speedButtons.slowDown.addEventListener('click', () => {
+            if (speedMultiplier > 0.5) {
+                speedMultiplier -= 0.5;
+                updateAnimationSpeeds();
+            }
+        });
+        
+        zoomButtons.zoomIn.addEventListener('click', () => {
+            currentScale += 0.1;
+            universe.style.transform = `scale(${currentScale})`;
+        });
+        
+        zoomButtons.zoomOut.addEventListener('click', () => {
+            if (currentScale > 0.3) {
+                currentScale -= 0.1;
+                universe.style.transform = `scale(${currentScale})`;
+            }
+        });
+        
+        function updateAnimationSpeeds() {
+            planets.forEach(planet => {
+                const currentAnimation = planet.style.animation;
+                const duration = parseInt(planet.style.animationDuration || 
+                    window.getComputedStyle(planet).animationDuration) || 10;
+                
+                const animationName = currentAnimation.split(' ')[0] || 'orbit';
+                
+                planet.style.animation = `${animationName} ${(duration / speedMultiplier).toFixed(2)}s linear infinite`;
+            });
+        }
+        planets.forEach(planet => {
+            const computedStyle = window.getComputedStyle(planet);
+            const duration = parseFloat(computedStyle.animationDuration);
+            planet.style.animationDuration = `${duration / speedMultiplier}s`;
+        });
+        document.addEventListener('mousemove', (e) => {
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+            universe.style.transform = `rotateX(${yAxis}deg) rotateY(${xAxis}deg) scale(${currentScale})`;
+        });
+    </script>
+</body>
+</html>
+
+
+
