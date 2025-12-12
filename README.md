@@ -31,7 +31,8 @@ JavaScript – Controls animation speed and zoom
 
 📸 Project Preview
 
-(Replace the link with your screenshot)
+<img width="1366" height="648" alt="Screenshot (7)" src="https://github.com/user-attachments/assets/a2c2ca7b-6b20-4dc6-aedb-e3e56027323e" />
+
 
 🌌 3D Solar System – HTML, CSS & JavaScript
 
